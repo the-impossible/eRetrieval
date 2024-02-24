@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+ {% block title %} Profile {%endblock %}
+ {% load crispy_forms_tags %}
+
+  {% block head %} {% include 'partials/auth_head.html' %} {% endblock %}
+
+  {% block body %}
+
+<body>
+  <div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    {% include 'partials/auth_nav.html' %}
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+      <!-- partial:partials/_sidebar.html -->
+      {% include 'partials/auth_sidebar.html' %}
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">profile /</span> my profile</h4>
+
+          <div class="row">
+            <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Profile Info</h4>
+                    <p class="card-description">Below is your<code>account</code>information</p>
+                    <div class="row">
+                      <div class="mx-auto">
+                        <img src="{{request.user.pics.url}}" width="200" class="mb-3" alt="">
+                      </div>
+                    </div>
+                    <p><b>NAME</b>: {{request.user.name}}</p>
+                    <p><b>REG No</b>: {{request.user.username}}</p>
+
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Change Password</h4>
+                    <p class="card-description">use the <code>form</code>below to update Password</p>
+                    {% include 'partials/messages.html' %}
+                    <form method="post" action="{% url 'auth:change_password' request.user.pk %}">
+                      {% csrf_token %}
+                      <div class="row mb-3">
+                        <label class="col-12 col-form-label" for="basic-icon-default-fullname">Current Password</label>
+                        <div class="col-12">
+                          <input class="form-control" required type="password" name="password0" placeholder="Current Password">
+                        </div>
+                      </div>
+                      <div class="row mb-3">
+                        <label class="col-12 col-form-label" for="basic-icon-default-fullname">New Password</label>
+                        <div class="col-12">
+                          <input class="form-control" required type="password" name="password1" placeholder="New Password">
+                        </div>
+                      </div>
+                      <div class="row mb-3">
+                        <label class="col-12 col-form-label" for="basic-icon-default-company">Re-Enter New Password</label>
+                        <div class="col-12">
+                          <input class="form-control" required type="password" name="password2" placeholder="Re-Enter New Password">
+                        </div>
+                      </div>
+                      <div class="row mb-3 ml-1">
+                        <button type="submit" class="btn btn-primary btn-md" name="password">Update Password</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+            </div>
+          </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.html -->
+      {% include 'partials/auth_footer.html' %}
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="backDropModal" data-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+      <form class="modal-content" enctype="multipart/form-data" method="POST">
+        <div class="modal-header">
+          <h5 class="modal-title" id="backDropModalTitle">Create Multiple Student</h5>
+          <button type="button" class="close" data-dismiss="modal"><span>×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {% csrf_token %}
+          {{ form2|crispy }}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+            Close
+          </button>
+          <button type="submit" name="multiple" class="btn btn-primary">Upload</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 2: Single-->
+  <div class="modal fade" id="backDropModal2" data-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+      <form class="modal-content" enctype="multipart/form-data" method="POST">
+        <div class="modal-header">
+          <h5 class="modal-title" id="backDropModalTitle">Create a Student</h5>
+          <button type="button" class="close" data-dismiss="modal"><span>×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {% csrf_token %}
+          {{ form1|crispy }}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+            Close
+          </button>
+          <button type="submit" name="single" class="btn btn-primary">Create</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  {% include 'partials/auth_script.html' %}
+
+</body>
+
+{% endblock %}
+

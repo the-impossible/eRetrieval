@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+ {% block title %} Dashboard {%endblock %}
+ {% load crispy_forms_tags %}
+
+  {% block head %} {% include 'partials/auth_head.html' %} {% endblock %}
+
+  {% block body %}
+
+<body>
+  <div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    {% include 'partials/auth_nav.html' %}
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+      <!-- partial:partials/_sidebar.html -->
+      {% include 'partials/auth_sidebar.html' %}
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+
+          <div class="row">
+            <div class="col-md-12 grid-margin">
+
+              <div class="row">
+                <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+                  <h3 class="font-weight-bold">Welcome {{request.user.name}}</h3>
+                  <h6 class="font-weight-normal mb-0 mt-3">All systems are running smoothly!</h6>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          {% include 'partials/messages.html' %}
+
+          <div class="row">
+            <div class="col-md-12 grid-margin transparent">
+              <div class="row">
+
+
+                {% if request.user.is_superuser %}
+
+                <div class="col-md-4 mb-4 stretch-card transparent">
+                  <div class="card card-tale">
+                    <div class="card-body">
+                      <p class="mb-4">Total Students</p>
+                      <p class="fs-30 mb-2">{{students}}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-4 stretch-card transparent">
+                  <div class="card card-dark-blue">
+                    <div class="card-body">
+                      <p class="mb-4">Total Departments</p>
+                      <p class="fs-30 mb-2">{{dept}}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-4 stretch-card transparent">
+                  <div class="card card-light-blue">
+                    <div class="card-body">
+                      <p class="mb-4">Number of Uploaded Past Questions</p>
+                      <p class="fs-30 mb-2">{{pq}}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {% else %}
+                <div class="col-md-4 mb-4 stretch-card transparent">
+                  <div class="card card-tale">
+                    <div class="card-body">
+                      <p class="mb-4">Total Student</p>
+                      <p class="fs-30 mb-2">{{students}}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-4 mb-4 stretch-card transparent">
+                  <div class="card card-dark-blue">
+                    <div class="card-body">
+                      <p class="mb-4">Total Uploaded Past Question</p>
+                      <p class="fs-30 mb-2">{{pq}}</p>
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+
+              </div>
+            </div>
+          </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.html -->
+      {% comment %} {% include 'partials/auth_footer.html' %} {% endcomment %}
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+
+  {% include 'partials/auth_script.html' %}
+
+  <!-- Modal 2: Single-->
+  <div class="modal fade" id="backDropModal2" data-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+      <form class="modal-content" method="POST">
+        <div class="modal-header">
+          <h5 class="modal-title" id="backDropModalTitle">Change Ending Date</h5>
+          <button type="button" class="close" data-dismiss="modal"><span>×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {% csrf_token %}
+          {{ form|crispy }}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+            Close
+          </button>
+          <button type="submit" name="single" class="btn btn-primary">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</body>
+
+{% endblock %}
+

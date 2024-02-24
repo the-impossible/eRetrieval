@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+ {% block title %} Login {%endblock %}
+
+  {% block head %} {% include 'partials/auth_head.html' %} {% endblock %}
+
+  {% block body %}
+
+<body>
+  <div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+      <div class="content-wrapper d-flex align-items-center auth px-0">
+        <div class="row w-100 mx-0">
+          <div class="col-lg-4 mx-auto">
+            <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+              <div class="brand-logo">
+                <a href="{% url 'auth:home' %}">
+                  <img src="{% static 'auth/images/logo.svg' %}" alt="logo">
+                </a>
+              </div>
+              <h4>Hello! let's get started</h4>
+              <h6 class="font-weight-light">Sign in to continue.</h6>
+              {% include 'partials/messages.html' %}
+              <form class="pt-2" method="post">
+
+                {% csrf_token %}
+
+                <div class="form-group">
+                  <input type="text" name="username" required class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Reg Number">
+                </div>
+
+                <div class="form-group">
+                  <input type="password" name="password" required class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password">
+                </div>
+
+                <div class="mt-5">
+                  <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN IN</button>
+                </div>
+
+                <div class="text-center mt-4 font-weight-light">
+                  Don't have an account? <a href="{% url 'auth:register' %}" class="text-primary">Register</a>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- content-wrapper ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+
+  {% include 'partials/auth_script.html' %}
+
+
+</body>
+
+{% endblock %}
+

@@ -1,0 +1,86 @@
+{% load static %}
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'auth:dashboard' %}">
+          <i class="icon-grid menu-icon"></i>
+          <span class="menu-title">Dashboard</span>
+        </a>
+      </li>
+
+      {% if request.user.is_superuser %}
+
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+          <i class="icon-layout menu-icon"></i>
+          <span class="menu-title">Students</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse" id="ui-basic">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="{% url 'auth:manage_student' %}">Manage Students</a></li>
+          </ul>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
+          <i class="icon-columns menu-icon"></i>
+          <span class="menu-title">Adminstrators</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse" id="form-elements">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"><a class="nav-link" href="{% url 'auth:manage_admin' %}">Manage Admin</a></li>
+          </ul>
+        </div>
+      </li>
+
+      {% comment %} <li class="nav-item">
+        <a class="nav-link" href="{% url 'auth:update_profile' request.user.pk %}">
+          <i class="icon-columns menu-icon"></i>
+          <span class="menu-title">Department & Session</span>
+        </a>
+      </li> {% endcomment %}
+
+
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="collapse" href="#icons" aria-expanded="false" aria-controls="icons">
+          <i class="icon-contract menu-icon"></i>
+          <span class="menu-title">Past Question</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse" id="icons">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="{% url 'auth:manage_past_question' %}">Manage Past Questions</a></li>
+          </ul>
+        </div>
+      </li>
+
+    {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'auth:retrieve_past_question' %}">
+          <i class="icon-grid-2 menu-icon"></i>
+          <span class="menu-title">Retrieve Past Question</span>
+        </a>
+      </li>
+    {% endif %}
+
+
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'auth:update_profile' request.user.pk %}">
+          <i class="icon-head menu-icon"></i>
+          <span class="menu-title">Profile</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="" data-toggle="modal"
+        data-target="#basicModal">
+          <i class="icon-ban menu-icon"></i>
+          <span class="menu-title">Logout</span>
+        </a>
+      </li>
+
+    </ul>
+  </nav>

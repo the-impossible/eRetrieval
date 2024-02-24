@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+ {% block title %} Modify Students {%endblock %}
+ {% load crispy_forms_tags %}
+
+  {% block head %} {% include 'partials/auth_head.html' %} {% endblock %}
+
+  {% block body %}
+
+<body>
+  <div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    {% include 'partials/auth_nav.html' %}
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+      <!-- partial:partials/_sidebar.html -->
+      {% include 'partials/auth_sidebar.html' %}
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">students /</span> modify students</h4>
+
+          {% include 'partials/messages.html' %}
+
+          <div class="row">
+            <div class="col-xl">
+              <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center bg-primary text-light">
+                  <h5 class="mb-0">Update Info</h5>
+                  <button type="button" class="btn rounded-pill btn-light text-dark" data-toggle="modal"
+                    data-target="#backDropModal2">Delete student </button>
+                </div>
+                <div class="card-body">
+                  <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{form|crispy}}
+                    <button type="submit" class="btn rounded-pill btn-lg btn-outline-primary mt-4"><span class="tf-icons bx bx-pie-chart-alt"></span>&nbsp; Update</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl"></div>
+          </div>
+
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.html -->
+      {% include 'partials/auth_footer.html' %}
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+
+
+  {% include 'partials/auth_script.html' %}
+
+  <!-- Modal 2: Delete-->
+  <div class="modal fade" id="backDropModal2" data-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+      <form class="modal-content" action="{% url 'auth:delete_student' object.pk %}" enctype="multipart/form-data" method="POST">
+        <div class="modal-header">
+          <h5 class="modal-title" id="backDropModalTitle">Delete Student</h5>
+          <button type="button" class="close" data-dismiss="modal"><span>×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete {{object.name}} </p>
+          <p><b>NB:</b> This process is non-reversal</p>
+          {% csrf_token %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+            Close
+          </button>
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</body>
+
+{% endblock %}
+

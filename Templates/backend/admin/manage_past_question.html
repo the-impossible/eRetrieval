@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% load static %}
+ {% block title %} Manage Past Question {%endblock %}
+ {% load crispy_forms_tags %}
+
+  {% block head %} {% include 'partials/auth_head.html' %} {% endblock %}
+
+  {% block body %}
+
+<body>
+  <div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    {% include 'partials/auth_nav.html' %}
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+      <!-- partial:partials/_sidebar.html -->
+      {% include 'partials/auth_sidebar.html' %}
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <h4 class="fw-bold py-3 mb-1"><span class="text-muted fw-light">past question /</span> manage past questions</h4>
+
+          <div class="">
+            <button type="button" class="btn rounded-pill btn-primary float-right" data-toggle="modal"
+            data-target="#backDropModal2">
+              <span class="tf-icons bx bx-pie-chart-alt"></span>&nbsp; Upload past question
+            </button>
+          </div>
+          <br>
+          <br>
+          <br>
+
+          {% include 'partials/messages.html' %}
+          <div class="row">
+
+            <div class="col-lg-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Manage Past Question</h4>
+                    <p class="card-description">
+                      use the <code>.table </code>below to manage all uploaded past question
+                    </p>
+                  <div class="table-responsive">
+                    <table class="table table-striped" id="table_id">
+                      <thead>
+                        <th>S/N</th>
+                        <th>Course Title</th>
+                        <th>Semester</th>
+                        <th>Session</th>
+                        <th>Department</th>
+                        <th>Actions</th>
+                      </thead>
+                      <tbody>
+                        {% if object_list %}
+
+                        {% for object in object_list  %}
+
+                          <tr>
+
+                            <td>
+                              <i class="fab fa-bootstrap fa-lg text-primary me-3"></i> <strong>{{forloop.counter}}</strong>
+                            </td>
+                            <td><a href="{% url 'auth:update_past_question' object.pk %}">{{ object.course_title }}</a></td>
+                            <td>{{ object.semester }}</td>
+                            <td>{{ object.session }}</td>
+                            <td>{{ object.department }}</td>
+                            <td>
+                              <a href="{{ object.past_question.url }}" class="btn btn-sm btn-outline-success btn-icon-text" download target="_blank" rel="noopener noreferrer">
+                                <i class="ti-file btn-icon-prepend"></i>
+                                Download
+                              </a>
+                            </td>
+                          </tr>
+                        {% endfor %}
+
+                      {% else %}
+
+                      <tr>
+                        <td colspan="12">
+                          <div class="jumbotron text-center p-5">
+                            <!-- illustration can be used here too -->
+                            <p style="font-size: 4em;">📂</p> <br>
+                            <p style="font-size: 1.3em; margin-top: -1px;">No Uploaded Past Question Record Here!</p>
+                          </div>
+                        </td>
+                      </tr>
+                      {% endif %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.html -->
+      {% include 'partials/auth_footer.html' %}
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+
+  <!-- Modal 2: Single-->
+  <div class="modal fade" id="backDropModal2" data-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+      <form class="modal-content" enctype="multipart/form-data" method="POST">
+        <div class="modal-header">
+          <h5 class="modal-title" id="backDropModalTitle">Upload Past Question</h5>
+          <button type="button" class="close" data-dismiss="modal"><span>×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {% csrf_token %}
+          {{ form1|crispy }}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+            Close
+          </button>
+          <button type="submit" name="single" class="btn btn-primary">Upload</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  {% include 'partials/auth_script.html' %}
+
+</body>
+
+{% endblock %}
+
